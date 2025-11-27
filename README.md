@@ -81,13 +81,13 @@ SubmitJob Request
 
 {
 
-  "worker_id": "worker-1a",
+    "worker_id": "worker-1a",
 
-  "payload_json": "{\"task\":\"email\",\"details\":\"hello\"}",
+    "payload_json": "{\"task\":\"email\",\"details\":\"hello\"}",
 
-  "idempotency_key": "",
+    "idempotency_key": "",
 
-  "max_retries": 2
+    "max_retries": 2
 
 }
 
@@ -140,7 +140,7 @@ ListJobs request
 
 {
 
-  "worker_id": "worker-1a"
+    "worker_id": "worker-1a"
 
 }
 
@@ -178,7 +178,7 @@ ListFailedJobs request
 
 {
 
-  "worker_id": "worker-1a"
+    "worker_id": "worker-1a"
 
 }
 
@@ -257,19 +257,7 @@ ListFailedJobs response
 Start server, then open http://localhost:8080 
 
 
-It shows:
-
-Total jobs
-
-Pending
-
-Running
-
-Done
-
-Failed
-
-DLQ items (failed jobs)
+It shows: Total jobs, Pending, Running, Done, Failed and DLQ items (failed jobs)
 
 
 It refreshes automatically every 3 seconds.
