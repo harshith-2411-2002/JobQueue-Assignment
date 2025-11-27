@@ -47,23 +47,23 @@ Update db connection string in both server and worker main.go.
 
 connString := "postgres://postgres:<YOUR_PASSWORD>@localhost:5432/jobqueue?sslmode=disable"
 
-1. Start the server
+1. # Start the server
+    
+    go run ./cmd/server
+    
+    you should see
+    
+    gRPC JobService server listening on :50051
+    
+    HTTP server listening on :8080 (dashboard & metrics)
 
-go run ./cmd/server
+2. # Start worker in a seperate terminal
 
-you should see
-
-gRPC JobService server listening on :50051
-
-HTTP server listening on :8080 (dashboard & metrics)
-
-2. Start worker in a seperate terminal
-
-go run ./cmd/worker
-
-worker will start picking jobs and processing it. Currently, the worker_id should be manually editted in the main.go under worker
-
-for the worker to start processing accordingly. It includes logic for success, failures and retries.
+    go run ./cmd/worker
+    
+    worker will start picking jobs and processing it. Currently, the worker_id should be manually editted in the main.go under worker
+    
+    for the worker to start processing accordingly. It includes logic for success, failures and retries.
 
 ## Test the API using postman.
 
