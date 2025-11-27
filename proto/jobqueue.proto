@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package jobqueue;
+
+option go_package = "github.com/harshith-2411-2002/JobQueue-Assignment/proto;proto";
+
+// ========== REQUEST MESSAGES ==========
+
+message SubmitJobRequest {
+  string worker_id = 1;       // Who the job is assigned to
+  string payload_json = 2;    // Job details
+  string idempotency_key = 3; // Avoid duplicate jobs
+  int32 max_retries = 4;      // Max attempts before DLQ
+}
+
+message GetJobRequest {
+  string job_id = 1;
+}
+
+message ListJobsRequest {
+  string worker_id = 1;       // List all jobs for the worker
+}
+
+// ========== RESPONSE MESSAGES ==========
+
+message SubmitJobResponse {
+  string job_id = 1;
+  bool deduplicated = 2;
+}
+
+message Job {
+  string id = 1;
+  string worker_id = 2;
+  string status = 3;          // pending / running / done / failed
+  string payload_json = 4;
+  int32 attempt_count = 5;
+  int32 max_retries = 6;
+  string last_error = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+message GetJobResponse {
+  Job job = 1;
+}
+
+message ListJobsResponse {
+  repeated Job jobs = 1;
+}
+
+// ========== SERVICE ==========
+
+service JobService {
+  rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
+  rpc GetJob(GetJobRequest) returns (GetJobResponse);
+  rpc ListJobs(ListJobsRequest) returns (ListJobsResponse);
+}
