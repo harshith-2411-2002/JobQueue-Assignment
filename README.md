@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ### Job Queue Assignment
+=======
+###Job Queue Assignment
+>>>>>>> 19a5dfc946e2851c03a4341e25a82b88610203e5
 
 This is a small job-queue system built using Go (Golang), gRPC, and PostgreSQL.
 
