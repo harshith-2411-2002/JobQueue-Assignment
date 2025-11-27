@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	JobService_SubmitJob_FullMethodName = "/jobqueue.JobService/SubmitJob"
-	JobService_GetJob_FullMethodName    = "/jobqueue.JobService/GetJob"
-	JobService_ListJobs_FullMethodName  = "/jobqueue.JobService/ListJobs"
+	JobService_SubmitJob_FullMethodName      = "/jobqueue.JobService/SubmitJob"
+	JobService_GetJob_FullMethodName         = "/jobqueue.JobService/GetJob"
+	JobService_ListJobs_FullMethodName       = "/jobqueue.JobService/ListJobs"
+	JobService_ListFailedJobs_FullMethodName = "/jobqueue.JobService/ListFailedJobs"
 )
 
 // JobServiceClient is the client API for JobService service.
@@ -31,6 +32,7 @@ type JobServiceClient interface {
 	SubmitJob(ctx context.Context, in *SubmitJobRequest, opts ...grpc.CallOption) (*SubmitJobResponse, error)
 	GetJob(ctx context.Context, in *GetJobRequest, opts ...grpc.CallOption) (*GetJobResponse, error)
 	ListJobs(ctx context.Context, in *ListJobsRequest, opts ...grpc.CallOption) (*ListJobsResponse, error)
+	ListFailedJobs(ctx context.Context, in *ListFailedJobsRequest, opts ...grpc.CallOption) (*ListFailedJobsResponse, error)
 }
 
 type jobServiceClient struct {
@@ -71,6 +73,16 @@ func (c *jobServiceClient) ListJobs(ctx context.Context, in *ListJobsRequest, op
 	return out, nil
 }
 
+func (c *jobServiceClient) ListFailedJobs(ctx context.Context, in *ListFailedJobsRequest, opts ...grpc.CallOption) (*ListFailedJobsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListFailedJobsResponse)
+	err := c.cc.Invoke(ctx, JobService_ListFailedJobs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobServiceServer is the server API for JobService service.
 // All implementations must embed UnimplementedJobServiceServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type JobServiceServer interface {
 	SubmitJob(context.Context, *SubmitJobRequest) (*SubmitJobResponse, error)
 	GetJob(context.Context, *GetJobRequest) (*GetJobResponse, error)
 	ListJobs(context.Context, *ListJobsRequest) (*ListJobsResponse, error)
+	ListFailedJobs(context.Context, *ListFailedJobsRequest) (*ListFailedJobsResponse, error)
 	mustEmbedUnimplementedJobServiceServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedJobServiceServer) GetJob(context.Context, *GetJobRequest) (*G
 }
 func (UnimplementedJobServiceServer) ListJobs(context.Context, *ListJobsRequest) (*ListJobsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListJobs not implemented")
+}
+func (UnimplementedJobServiceServer) ListFailedJobs(context.Context, *ListFailedJobsRequest) (*ListFailedJobsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListFailedJobs not implemented")
 }
 func (UnimplementedJobServiceServer) mustEmbedUnimplementedJobServiceServer() {}
 func (UnimplementedJobServiceServer) testEmbeddedByValue()                    {}
@@ -172,6 +188,24 @@ func _JobService_ListJobs_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobService_ListFailedJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFailedJobsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobServiceServer).ListFailedJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobService_ListFailedJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobServiceServer).ListFailedJobs(ctx, req.(*ListFailedJobsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobService_ServiceDesc is the grpc.ServiceDesc for JobService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var JobService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListJobs",
 			Handler:    _JobService_ListJobs_Handler,
+		},
+		{
+			MethodName: "ListFailedJobs",
+			Handler:    _JobService_ListFailedJobs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

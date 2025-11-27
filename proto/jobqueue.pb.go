@@ -177,6 +177,50 @@ func (x *ListJobsRequest) GetWorkerId() string {
 	return ""
 }
 
+type ListFailedJobsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkerId      string                 `protobuf:"bytes,1,opt,name=worker_id,json=workerId,proto3" json:"worker_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListFailedJobsRequest) Reset() {
+	*x = ListFailedJobsRequest{}
+	mi := &file_proto_jobqueue_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListFailedJobsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListFailedJobsRequest) ProtoMessage() {}
+
+func (x *ListFailedJobsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_jobqueue_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListFailedJobsRequest.ProtoReflect.Descriptor instead.
+func (*ListFailedJobsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_jobqueue_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListFailedJobsRequest) GetWorkerId() string {
+	if x != nil {
+		return x.WorkerId
+	}
+	return ""
+}
+
 type SubmitJobResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
@@ -187,7 +231,7 @@ type SubmitJobResponse struct {
 
 func (x *SubmitJobResponse) Reset() {
 	*x = SubmitJobResponse{}
-	mi := &file_proto_jobqueue_proto_msgTypes[3]
+	mi := &file_proto_jobqueue_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -199,7 +243,7 @@ func (x *SubmitJobResponse) String() string {
 func (*SubmitJobResponse) ProtoMessage() {}
 
 func (x *SubmitJobResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_jobqueue_proto_msgTypes[3]
+	mi := &file_proto_jobqueue_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -212,7 +256,7 @@ func (x *SubmitJobResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubmitJobResponse.ProtoReflect.Descriptor instead.
 func (*SubmitJobResponse) Descriptor() ([]byte, []int) {
-	return file_proto_jobqueue_proto_rawDescGZIP(), []int{3}
+	return file_proto_jobqueue_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *SubmitJobResponse) GetJobId() string {
@@ -246,7 +290,7 @@ type Job struct {
 
 func (x *Job) Reset() {
 	*x = Job{}
-	mi := &file_proto_jobqueue_proto_msgTypes[4]
+	mi := &file_proto_jobqueue_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -258,7 +302,7 @@ func (x *Job) String() string {
 func (*Job) ProtoMessage() {}
 
 func (x *Job) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_jobqueue_proto_msgTypes[4]
+	mi := &file_proto_jobqueue_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -271,7 +315,7 @@ func (x *Job) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Job.ProtoReflect.Descriptor instead.
 func (*Job) Descriptor() ([]byte, []int) {
-	return file_proto_jobqueue_proto_rawDescGZIP(), []int{4}
+	return file_proto_jobqueue_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *Job) GetId() string {
@@ -346,7 +390,7 @@ type GetJobResponse struct {
 
 func (x *GetJobResponse) Reset() {
 	*x = GetJobResponse{}
-	mi := &file_proto_jobqueue_proto_msgTypes[5]
+	mi := &file_proto_jobqueue_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -358,7 +402,7 @@ func (x *GetJobResponse) String() string {
 func (*GetJobResponse) ProtoMessage() {}
 
 func (x *GetJobResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_jobqueue_proto_msgTypes[5]
+	mi := &file_proto_jobqueue_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -371,7 +415,7 @@ func (x *GetJobResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetJobResponse.ProtoReflect.Descriptor instead.
 func (*GetJobResponse) Descriptor() ([]byte, []int) {
-	return file_proto_jobqueue_proto_rawDescGZIP(), []int{5}
+	return file_proto_jobqueue_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetJobResponse) GetJob() *Job {
@@ -390,7 +434,7 @@ type ListJobsResponse struct {
 
 func (x *ListJobsResponse) Reset() {
 	*x = ListJobsResponse{}
-	mi := &file_proto_jobqueue_proto_msgTypes[6]
+	mi := &file_proto_jobqueue_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -402,7 +446,7 @@ func (x *ListJobsResponse) String() string {
 func (*ListJobsResponse) ProtoMessage() {}
 
 func (x *ListJobsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_jobqueue_proto_msgTypes[6]
+	mi := &file_proto_jobqueue_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -415,10 +459,54 @@ func (x *ListJobsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListJobsResponse.ProtoReflect.Descriptor instead.
 func (*ListJobsResponse) Descriptor() ([]byte, []int) {
-	return file_proto_jobqueue_proto_rawDescGZIP(), []int{6}
+	return file_proto_jobqueue_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListJobsResponse) GetJobs() []*Job {
+	if x != nil {
+		return x.Jobs
+	}
+	return nil
+}
+
+type ListFailedJobsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Jobs          []*Job                 `protobuf:"bytes,1,rep,name=jobs,proto3" json:"jobs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListFailedJobsResponse) Reset() {
+	*x = ListFailedJobsResponse{}
+	mi := &file_proto_jobqueue_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListFailedJobsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListFailedJobsResponse) ProtoMessage() {}
+
+func (x *ListFailedJobsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_jobqueue_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListFailedJobsResponse.ProtoReflect.Descriptor instead.
+func (*ListFailedJobsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_jobqueue_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListFailedJobsResponse) GetJobs() []*Job {
 	if x != nil {
 		return x.Jobs
 	}
@@ -439,6 +527,8 @@ const file_proto_jobqueue_proto_rawDesc = "" +
 	"\rGetJobRequest\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\".\n" +
 	"\x0fListJobsRequest\x12\x1b\n" +
+	"\tworker_id\x18\x01 \x01(\tR\bworkerId\"4\n" +
+	"\x15ListFailedJobsRequest\x12\x1b\n" +
 	"\tworker_id\x18\x01 \x01(\tR\bworkerId\"N\n" +
 	"\x11SubmitJobResponse\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12\"\n" +
@@ -460,12 +550,15 @@ const file_proto_jobqueue_proto_rawDesc = "" +
 	"\x0eGetJobResponse\x12\x1f\n" +
 	"\x03job\x18\x01 \x01(\v2\r.jobqueue.JobR\x03job\"5\n" +
 	"\x10ListJobsResponse\x12!\n" +
-	"\x04jobs\x18\x01 \x03(\v2\r.jobqueue.JobR\x04jobs2\xd2\x01\n" +
+	"\x04jobs\x18\x01 \x03(\v2\r.jobqueue.JobR\x04jobs\";\n" +
+	"\x16ListFailedJobsResponse\x12!\n" +
+	"\x04jobs\x18\x01 \x03(\v2\r.jobqueue.JobR\x04jobs2\xa7\x02\n" +
 	"\n" +
 	"JobService\x12D\n" +
 	"\tSubmitJob\x12\x1a.jobqueue.SubmitJobRequest\x1a\x1b.jobqueue.SubmitJobResponse\x12;\n" +
 	"\x06GetJob\x12\x17.jobqueue.GetJobRequest\x1a\x18.jobqueue.GetJobResponse\x12A\n" +
-	"\bListJobs\x12\x19.jobqueue.ListJobsRequest\x1a\x1a.jobqueue.ListJobsResponseB?Z=github.com/harshith-2411-2002/JobQueue-Assignment/proto;protob\x06proto3"
+	"\bListJobs\x12\x19.jobqueue.ListJobsRequest\x1a\x1a.jobqueue.ListJobsResponse\x12S\n" +
+	"\x0eListFailedJobs\x12\x1f.jobqueue.ListFailedJobsRequest\x1a .jobqueue.ListFailedJobsResponseB?Z=github.com/harshith-2411-2002/JobQueue-Assignment/proto;protob\x06proto3"
 
 var (
 	file_proto_jobqueue_proto_rawDescOnce sync.Once
@@ -479,30 +572,35 @@ func file_proto_jobqueue_proto_rawDescGZIP() []byte {
 	return file_proto_jobqueue_proto_rawDescData
 }
 
-var file_proto_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_proto_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_proto_jobqueue_proto_goTypes = []any{
-	(*SubmitJobRequest)(nil),  // 0: jobqueue.SubmitJobRequest
-	(*GetJobRequest)(nil),     // 1: jobqueue.GetJobRequest
-	(*ListJobsRequest)(nil),   // 2: jobqueue.ListJobsRequest
-	(*SubmitJobResponse)(nil), // 3: jobqueue.SubmitJobResponse
-	(*Job)(nil),               // 4: jobqueue.Job
-	(*GetJobResponse)(nil),    // 5: jobqueue.GetJobResponse
-	(*ListJobsResponse)(nil),  // 6: jobqueue.ListJobsResponse
+	(*SubmitJobRequest)(nil),       // 0: jobqueue.SubmitJobRequest
+	(*GetJobRequest)(nil),          // 1: jobqueue.GetJobRequest
+	(*ListJobsRequest)(nil),        // 2: jobqueue.ListJobsRequest
+	(*ListFailedJobsRequest)(nil),  // 3: jobqueue.ListFailedJobsRequest
+	(*SubmitJobResponse)(nil),      // 4: jobqueue.SubmitJobResponse
+	(*Job)(nil),                    // 5: jobqueue.Job
+	(*GetJobResponse)(nil),         // 6: jobqueue.GetJobResponse
+	(*ListJobsResponse)(nil),       // 7: jobqueue.ListJobsResponse
+	(*ListFailedJobsResponse)(nil), // 8: jobqueue.ListFailedJobsResponse
 }
 var file_proto_jobqueue_proto_depIdxs = []int32{
-	4, // 0: jobqueue.GetJobResponse.job:type_name -> jobqueue.Job
-	4, // 1: jobqueue.ListJobsResponse.jobs:type_name -> jobqueue.Job
-	0, // 2: jobqueue.JobService.SubmitJob:input_type -> jobqueue.SubmitJobRequest
-	1, // 3: jobqueue.JobService.GetJob:input_type -> jobqueue.GetJobRequest
-	2, // 4: jobqueue.JobService.ListJobs:input_type -> jobqueue.ListJobsRequest
-	3, // 5: jobqueue.JobService.SubmitJob:output_type -> jobqueue.SubmitJobResponse
-	5, // 6: jobqueue.JobService.GetJob:output_type -> jobqueue.GetJobResponse
-	6, // 7: jobqueue.JobService.ListJobs:output_type -> jobqueue.ListJobsResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	5, // 0: jobqueue.GetJobResponse.job:type_name -> jobqueue.Job
+	5, // 1: jobqueue.ListJobsResponse.jobs:type_name -> jobqueue.Job
+	5, // 2: jobqueue.ListFailedJobsResponse.jobs:type_name -> jobqueue.Job
+	0, // 3: jobqueue.JobService.SubmitJob:input_type -> jobqueue.SubmitJobRequest
+	1, // 4: jobqueue.JobService.GetJob:input_type -> jobqueue.GetJobRequest
+	2, // 5: jobqueue.JobService.ListJobs:input_type -> jobqueue.ListJobsRequest
+	3, // 6: jobqueue.JobService.ListFailedJobs:input_type -> jobqueue.ListFailedJobsRequest
+	4, // 7: jobqueue.JobService.SubmitJob:output_type -> jobqueue.SubmitJobResponse
+	6, // 8: jobqueue.JobService.GetJob:output_type -> jobqueue.GetJobResponse
+	7, // 9: jobqueue.JobService.ListJobs:output_type -> jobqueue.ListJobsResponse
+	8, // 10: jobqueue.JobService.ListFailedJobs:output_type -> jobqueue.ListFailedJobsResponse
+	7, // [7:11] is the sub-list for method output_type
+	3, // [3:7] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_proto_jobqueue_proto_init() }
@@ -516,7 +614,7 @@ func file_proto_jobqueue_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_jobqueue_proto_rawDesc), len(file_proto_jobqueue_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>JobQueue Dashboard</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        h1 { font-size: 24px; }
+        table { border-collapse: collapse; margin-top: 20px; width: 50%; }
+        td, th { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+        #updated { margin-top: 10px; font-size: 12px; color: #555; }
+        #dlqTable { width: 80%; }
+    </style>
+</head>
+<body>
+
+    <h1>JobQueue Dashboard</h1>
+
+    <label>
+        Worker ID (optional):
+        <input id="workerInput" type="text" placeholder="worker-1" />
+    </label>
+    <button onclick="loadStats()">Refresh</button>
+
+    <h2>Job Stats</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Total</th>
+                <th>Pending</th>
+                <th>Running</th>
+                <th>Done</th>
+                <th>Failed</th>
+            </tr>
+        </thead>
+        <tbody id="statsBody">
+            <tr>
+                <td colspan="5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="updated"></div>
+
+    <h2>DLQ Items</h2>
+    <table id="dlqTable">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Attempts</th>
+                <th>Max Retries</th>
+                <th>Error</th>
+            </tr>
+        </thead>
+        <tbody id="dlqBody">
+            <tr>
+                <td colspan="4">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+
+<script>
+async function loadStats() {
+    const worker = document.getElementById('workerInput').value;
+
+    let metricsUrl = '/metrics';
+    let dlqUrl     = '/failed-jobs';
+
+    if (worker) {
+        metricsUrl += '?worker_id=' + encodeURIComponent(worker);
+        dlqUrl += '?worker_id=' + encodeURIComponent(worker);
+    }
+
+    // Fetch job stats
+    const statsRes = await fetch(metricsUrl);
+    const stats = await statsRes.json();
+
+    const body = document.getElementById('statsBody');
+    body.innerHTML = `
+        <tr>
+            <td>${stats.Total}</td>
+            <td>${stats.Pending}</td>
+            <td>${stats.Running}</td>
+            <td>${stats.Done}</td>
+            <td>${stats.Failed}</td>
+        </tr>
+    `;
+
+    // Fetch DLQ items
+    const dlqRes = await fetch(dlqUrl);
+    const dlqList = await dlqRes.json();
+
+    const dlqBody = document.getElementById('dlqBody');
+    dlqBody.innerHTML = "";
+
+    if (dlqList.jobs.length === 0) {
+        dlqBody.innerHTML = `<tr><td colspan="4">No DLQ jobs</td></tr>`;
+    } else {
+        dlqList.jobs.forEach(j => {
+            dlqBody.innerHTML += `
+                <tr>
+                    <td>${j.id}</td>
+                    <td>${j.attemptCount}</td>
+                    <td>${j.maxRetries}</td>
+                    <td>${j.lastError || ''}</td>
+                </tr>`;
+        });
+    }
+
+    document.getElementById('updated').textContent =
+        "Last updated: " + new Date().toLocaleTimeString();
+}
+
+window.onload = () => {
+    loadStats();                 // load immediately
+    setInterval(loadStats, 1000) // refresh every 3 seconds
+};
+</script>
+
+</body>
+</html>

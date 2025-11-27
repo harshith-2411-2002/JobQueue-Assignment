@@ -21,6 +21,10 @@ message ListJobsRequest {
   string worker_id = 1;       // List all jobs for the worker
 }
 
+message ListFailedJobsRequest {
+  string worker_id = 1;
+}
+
 // ========== RESPONSE MESSAGES ==========
 
 message SubmitJobResponse {
@@ -48,10 +52,15 @@ message ListJobsResponse {
   repeated Job jobs = 1;
 }
 
+message ListFailedJobsResponse {
+  repeated Job jobs = 1;
+}
+
 // ========== SERVICE ==========
 
 service JobService {
   rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse);
   rpc GetJob(GetJobRequest) returns (GetJobResponse);
   rpc ListJobs(ListJobsRequest) returns (ListJobsResponse);
+  rpc ListFailedJobs(ListFailedJobsRequest) returns (ListFailedJobsResponse);
 }
