@@ -12,7 +12,7 @@ import (
 func main() {
 	ctx := context.Background()
 
-	connString := "postgres://postgres:Honey2411@localhost:5432/jobqueue?sslmode=disable"
+	connString := "postgres://postgres:<YOURPASSWORD>@localhost:5432/jobqueue?sslmode=disable"
 
 	store, err := db.NewStore(ctx, connString)
 	if err != nil {
@@ -20,7 +20,7 @@ func main() {
 	}
 	defer store.Close()
 
-	workerID := "worker-r4"
+	workerID := "worker-1a"
 
 	log.Println("Worker started for:", workerID)
 

@@ -53,7 +53,7 @@ type Job struct {
 }
 
 // CreateJob inserts a new job into the jobs table.
-// If idempotencyKey is non-empty and a job already exists for (worker_id, idempotency_key),
+// If idempotencyKey is present and a job already exists for (worker_id, idempotency_key),
 // it returns the existing job and deduplicated=true.
 func (s *Store) CreateJob(ctx context.Context, workerID string, payloadJSON string, idempotencyKey string, maxRetries int32) (job Job, deduplicated bool, err error) {
 	// maxretries default to 3
@@ -137,7 +137,7 @@ func (s *Store) GetJob(ctx context.Context, jobID string) (Job, error) {
 
 // ListJobs returns jobs for a specific worker, most recent first.
 // We add a LIMIT to keep it simple and safe.
-func (s *Store) ListJobs(ctx context.Context, workerID string, limit int) ([]Job, error) {
+func (s *Store) ListJobs(ctx context.Context, workerID string, limit int32) ([]Job, error) {
 	if limit <= 0 {
 		limit = 100
 	}
@@ -308,9 +308,8 @@ func (s *Store) ListJobsByStatus(ctx context.Context, workerID, status string) (
 		args  []any
 	)
 
-	// Build query dynamically
 	if workerID == "" {
-		// No worker filter → show all jobs with this status
+		// No worker filter, show all jobs with this status
 		query = `
 			SELECT id, worker_id, status, payload, idempotency_key,
 			       attempt_count, max_retries, leased_until, last_error,

@@ -21,8 +21,8 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	// Actual Postgres password needed here
-	connString := "postgres://postgres:Honey2411@localhost:5432/jobqueue?sslmode=disable"
+	// Postgres password should be set via env var or secret management in real apps.
+	connString := "postgres://postgres:<YOURPASSWORD>@localhost:5432/jobqueue?sslmode=disable"
 
 	store, err := db.NewStore(ctx, connString)
 	if err != nil {

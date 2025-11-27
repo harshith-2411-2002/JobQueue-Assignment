@@ -19,21 +19,18 @@ const (
 // JobServiceServer is the gRPC server implementation.
 type JobServiceServer struct {
 	pb.UnimplementedJobServiceServer
-	store *db.Store
+	store Store
 }
 
 // NewJobServiceServer creates a new JobServiceServer with the given Store.
-func NewJobServiceServer(store *db.Store) *JobServiceServer {
+func NewJobServiceServer(store Store) *JobServiceServer {
 	return &JobServiceServer{
 		store: store,
 	}
 }
 
 // SubmitJob handles job creation from clients.
-func (s *JobServiceServer) SubmitJob(
-	ctx context.Context,
-	req *pb.SubmitJobRequest,
-) (*pb.SubmitJobResponse, error) {
+func (s *JobServiceServer) SubmitJob(ctx context.Context, req *pb.SubmitJobRequest) (*pb.SubmitJobResponse, error) {
 	// Basic validation
 	if req.GetWorkerId() == "" {
 		return nil, status.Error(codes.InvalidArgument, "worker_id is required")
@@ -47,7 +44,7 @@ func (s *JobServiceServer) SubmitJob(
 
 	log.Printf("[SubmitJob] worker=%s idem=%s incoming", workerID, idemKey)
 
-	// 1) Enforce max active jobs (pending + running)
+	// Enforce max active jobs (pending + running)
 	activeCount, err := s.store.CountActiveJobs(ctx, workerID)
 	if err != nil {
 		log.Printf("[SubmitJob] worker=%s error=countActive: %v", workerID, err)
@@ -56,15 +53,10 @@ func (s *JobServiceServer) SubmitJob(
 	if activeCount >= maxActiveJobsPerWorker {
 		log.Printf("[SubmitJob] worker=%s rejected: active=%d limit=%d",
 			workerID, activeCount, maxActiveJobsPerWorker)
-		return nil, status.Errorf(
-			codes.ResourceExhausted,
-			"worker %s already has %d or more active jobs",
-			workerID,
-			maxActiveJobsPerWorker,
-		)
+		return nil, status.Errorf(codes.ResourceExhausted, "worker %s already has %d or more active jobs", workerID, maxActiveJobsPerWorker)
 	}
 
-	// 2) Enforce simple rate limit: max jobs per minute
+	// Enforce rate limit: max jobs per minute
 	cutoff := time.Now().Add(-1 * time.Minute)
 	recentCount, err := s.store.CountRecentJobs(ctx, workerID, cutoff)
 	if err != nil {
@@ -182,15 +174,19 @@ func dbJobToProto(j db.Job) *pb.Job {
 	}
 }
 
-func (s *JobServiceServer) ListFailedJobs(ctx context.Context, req *pb.ListFailedJobsRequest) (*pb.ListFailedJobsResponse, error) {
-	if req.GetWorkerId() == "" {
-		return nil, status.Error(codes.InvalidArgument, "worker_id is required")
-	}
+func (s *JobServiceServer) ListFailedJobs(
+	ctx context.Context,
+	req *pb.ListFailedJobsRequest,
+) (*pb.ListFailedJobsResponse, error) {
 
 	workerID := req.GetWorkerId()
-	log.Printf("[ListFailedJobs] worker=%s requested", workerID)
+	if workerID == "" {
+		log.Printf("[ListFailedJobs] all workers requested")
+	} else {
+		log.Printf("[ListFailedJobs] worker=%s requested", workerID)
+	}
 
-	jobs, err := s.store.ListJobsByStatus(ctx, req.GetWorkerId(), "failed")
+	jobs, err := s.store.ListJobsByStatus(ctx, workerID, "failed")
 	if err != nil {
 		log.Printf("[ListFailedJobs] worker=%s error=listFailed: %v", workerID, err)
 		return nil, status.Errorf(codes.Internal, "failed to list failed jobs: %v", err)
