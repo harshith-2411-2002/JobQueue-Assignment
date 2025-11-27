@@ -1,4 +1,4 @@
-### Job Queue Assignment
+# Distributed Task Queue & Job Processor 
 
 This is a small job-queue system built using Go (Golang), gRPC, and PostgreSQL.
 
@@ -47,7 +47,7 @@ Update db connection string in both server and worker main.go.
 
 connString := "postgres://postgres:<YOUR_PASSWORD>@localhost:5432/jobqueue?sslmode=disable"
 
-1. # Start the server
+1. ### Start the server
     
     go run ./cmd/server
     
@@ -57,7 +57,7 @@ connString := "postgres://postgres:<YOUR_PASSWORD>@localhost:5432/jobqueue?sslmo
     
     HTTP server listening on :8080 (dashboard & metrics)
 
-2. # Start worker in a seperate terminal
+2. ### Start worker in a seperate terminal
 
     go run ./cmd/worker
     
