@@ -136,7 +136,7 @@ func (s *Store) GetJob(ctx context.Context, jobID string) (Job, error) {
 }
 
 // ListJobs returns jobs for a specific worker, most recent first.
-// We add a LIMIT to keep it simple and safe.
+// We add a LIMIT to keep it safe.
 func (s *Store) ListJobs(ctx context.Context, workerID string, limit int32) ([]Job, error) {
 	if limit <= 0 {
 		limit = 100
@@ -174,8 +174,7 @@ func (s *Store) ListJobs(ctx context.Context, workerID string, limit int32) ([]J
 	return jobs, nil
 }
 
-// scanJob scans a row into a Job struct.
-// It works for both QueryRow and Query rows.
+// scanJob scans a row into a Job struct
 type scannable interface {
 	Scan(dest ...any) error
 }
